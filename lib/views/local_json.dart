@@ -13,16 +13,43 @@ class LocalJson extends StatefulWidget {
 class _LocalJsonState extends State<LocalJson> {
   @override
   Widget build(BuildContext context) {
-    arabalarJsonOku();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Local Json Islemleri'),
       ),
-      body: Container(),
+      body: FutureBuilder<List<ArabaModel>>(
+        future: arabalarJsonOku(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            List<ArabaModel> arabaListesi = snapshot.data;
+            return ListView.builder(
+              itemCount: arabaListesi.length,
+              itemBuilder: (BuildContext context, int index) {
+                var araba = arabaListesi[index];
+                return ListTile(
+                  title: Text(araba.arabaAdi),
+                  subtitle: Text(araba.ulke),
+                  leading: CircleAvatar(
+                    child: Text(araba.model[0].fiyat.toString()),
+                  ),
+                );
+              },
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text(snapshot.error.toString()),
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
     );
   }
 
-  arabalarJsonOku() async {
+  Future<List<ArabaModel>> arabalarJsonOku() async {
     String okunanString = await DefaultAssetBundle.of(context)
         .loadString("assets/data/arabalar.json");
 
@@ -35,7 +62,9 @@ class _LocalJsonState extends State<LocalJson> {
     List<ArabaModel> tumArabalar = (jsonArray as List)
         .map((arabaMap) => ArabaModel.fromMap(arabaMap))
         .toList();
-    debugPrint(tumArabalar.length.toString());
-    debugPrint(tumArabalar[0].model[0].modelAdi);
+    // debugPrint(tumArabalar.length.toString());
+    // debugPrint(tumArabalar[0].model[0].modelAdi);
+
+    return tumArabalar;
   }
 }
