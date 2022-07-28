@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http_package_json_and_api/views/local_json.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,7 +15,13 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LocalJson(),
+                    ));
+              },
               style: ElevatedButton.styleFrom(
                 primary: Colors.green,
               ),
