@@ -26,13 +26,13 @@ class _LocalJsonState extends State<LocalJson> {
     String okunanString = await DefaultAssetBundle.of(context)
         .loadString("assets/data/arabalar.json");
 
-    var jsonObject = jsonDecode(okunanString);
+    var jsonArray = jsonDecode(okunanString);
     // debugPrint(okunanString);
     // debugPrint("*********************");
     // List arabaListesi = jsonObject;
     // debugPrint(arabaListesi[1]["model"][0]["model_adi"].toString());
 
-    List<ArabaModel> tumArabalar = (jsonObject as List)
+    List<ArabaModel> tumArabalar = (jsonArray as List)
         .map((arabaMap) => ArabaModel.fromMap(arabaMap))
         .toList();
     debugPrint(tumArabalar.length.toString());
