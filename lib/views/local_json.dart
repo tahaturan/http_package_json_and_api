@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:http_package_json_and_api/model/araba_model.dart';
 
 class LocalJson extends StatefulWidget {
   const LocalJson({Key? key}) : super(key: key);
@@ -26,9 +27,15 @@ class _LocalJsonState extends State<LocalJson> {
         .loadString("assets/data/arabalar.json");
 
     var jsonObject = jsonDecode(okunanString);
-    debugPrint(okunanString);
-    debugPrint("*********************");
-    List arabaListesi = jsonObject;
-    debugPrint(arabaListesi[1]["model"][0]["model_adi"].toString());
+    // debugPrint(okunanString);
+    // debugPrint("*********************");
+    // List arabaListesi = jsonObject;
+    // debugPrint(arabaListesi[1]["model"][0]["model_adi"].toString());
+
+    List<ArabaModel> tumArabalar = (jsonObject as List)
+        .map((arabaMap) => ArabaModel.fromMap(arabaMap))
+        .toList();
+    debugPrint(tumArabalar.length.toString());
+    debugPrint(tumArabalar[0].model[0].modelAdi);
   }
 }
